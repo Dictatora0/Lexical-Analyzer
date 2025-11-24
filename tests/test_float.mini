@@ -1,0 +1,18 @@
+// 专门测试浮点数功能
+
+int pi = 3.14159;
+int e = 2.71828;
+int zero = 0.0;
+int small = 0.001;
+int large = 999.999;
+
+int a = 1.5;
+int b = 2.5;
+
+if (a < b) {
+    int c = a + b;
+    int d = c * 1.5;
+}
+
+int result = pi * 2.0;
+return result;

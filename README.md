@@ -48,22 +48,23 @@
 
 ## 快速开始
 
-### 方法一：批量测试（推荐）
-
 ```bash
 # 运行所有测试用例
 ./run_tests.sh
+
+# 单个文件测试
+python src/lexical_analyzer.py tests/test_float.mini outputs/result.txt
 ```
 
-### 方法二：单个文件测试
+**主要功能**：
 
-```bash
-# 基本用法
-python src/lexical_analyzer.py <源文件路径> [输出文件路径]
-
-# 示例
-python src/lexical_analyzer.py tests/test_correct.mini outputs/result.txt
-```
+- ✅ 浮点数支持
+- ✅ 字符串常量（支持转义字符）
+- ✅ 单行注释 `//` 和块注释 `/* */`
+- ✅ 符号表/常数表哈希优化 (O(1))
+- ✅ 分派表模式，代码简洁
+- ✅ 标准 EOF 处理
+- ✅ 错误恢复机制（最多 10 个错误）
 
 ## 使用方法
 
@@ -79,17 +80,17 @@ python src/lexical_analyzer.py <源文件路径> [输出文件路径]
 ### 详细示例
 
 ```bash
-# 分析正确的程序
-python src/lexical_analyzer.py tests/test_correct.mini outputs/output_correct.txt
+# 测试浮点数支持
+python src/lexical_analyzer.py tests/test_float.mini outputs/output_float.txt
 
-# 分析包含错误的程序
-python src/lexical_analyzer.py tests/test_error.mini outputs/output_error.txt
+# 测试字符串支持
+python src/lexical_analyzer.py tests/test_string.mini outputs/output_string.txt
 
-# 分析包含注释的程序
-python src/lexical_analyzer.py tests/test_comment.mini outputs/output_comment.txt
+# 测试综合功能
+python src/lexical_analyzer.py tests/test_features.mini outputs/output_features.txt
 
-# 测试所有运算符
-python src/lexical_analyzer.py tests/test_operators.mini outputs/output_operators.txt
+# 测试错误恢复
+python src/lexical_analyzer.py tests/test_errors.mini outputs/output_errors.txt
 ```
 
 ## 项目维护
@@ -112,21 +113,21 @@ python src/lexical_analyzer.py tests/test_operators.mini outputs/output_operator
 
 ## 测试用例
 
-### 1. test_correct.mini - 正确程序测试
+### 1. test_float.mini - 浮点数测试
 
-包含所有基本语法元素的正确程序。
+测试浮点数常量的识别，如 `3.14159`、`0.001`、`999.999`。
 
-### 2. test_error.mini - 错误检测测试
+### 2. test_string.mini - 字符串测试
 
-包含非法字符（如 `@`, `$`）的错误程序，用于测试错误检测功能。
+测试字符串常量和转义字符，如 `"Hello\n"`、`"C:\\path"`。
 
-### 3. test_comment.mini - 注释处理测试
+### 3. test_features.mini - 综合功能测试
 
-包含单行和多行注释的程序，测试注释跳过功能。
+测试所有新功能：浮点数、字符串、单行注释、块注释。
 
-### 4. test_operators.mini - 运算符测试
+### 4. test_errors.mini - 错误恢复测试
 
-测试所有运算符的识别，特别是双字符运算符。
+测试错误检测和恢复机制，包含多个非法字符。
 
 ## 输出格式
 
@@ -183,18 +184,20 @@ python src/lexical_analyzer.py tests/test_operators.mini outputs/output_operator
 ```
 Lexical-Analyzer/
 ├── src/                      # 源代码目录
-│   └── lexical_analyzer.py   # 词法分析器主程序
+│   └── lexical_analyzer.py   # 词法分析器（v2.0，~450行）
 ├── tests/                    # 测试用例目录
-│   ├── test_correct.mini     # 正确程序测试用例
-│   ├── test_error.mini       # 错误检测测试用例
-│   ├── test_comment.mini     # 注释处理测试用例
-│   └── test_operators.mini   # 运算符测试用例
-├── outputs/                  # 输出文件目录
-│   ├── output_correct.txt    # 正确程序分析结果
-│   ├── output_error.txt      # 错误程序分析结果
-│   └── output_comment.txt    # 注释程序分析结果
+│   ├── test_float.mini       # 浮点数测试
+│   ├── test_string.mini      # 字符串测试
+│   ├── test_features.mini    # 综合功能测试
+│   └── test_errors.mini      # 错误恢复测试
+├── outputs/                  # 输出结果目录
+│   └── (自动生成的分析结果)
 ├── docs/                     # 文档目录
-│   └── 实验报告.md           # 完整实验报告
+│   ├── 实验报告.md           # 完整实验报告
+│   ├── 改进说明_v2.md        # v2.0 改进说明
+│   └── 项目概览.md           # 项目结构说明
+├── run_tests.sh              # 批量测试脚本
+├── clean.sh                  # 清理脚本
 └── README.md                 # 项目说明文档
 ```
 

@@ -1,0 +1,19 @@
+// 专门测试字符串功能
+
+int name = "Alice";
+int greeting = "Hello, World!";
+int empty = "";
+
+// 转义字符测试
+int newline = "Line1\nLine2";
+int tab = "Col1\tCol2";
+int quote = "He said \"Hello\"";
+int backslash = "Path: C:\\Users\\test";
+
+// 单引号字符串
+int char1 = 'A';
+int char2 = 'Hello';
+
+int message = "Welcome to Mini Language!";
+
+return 0;

@@ -1,0 +1,87 @@
+Token序列
+============================================================
+  1. <4, 'int', Line:3, Col:1>
+  2. <23, 'name', Line:3, Col:5, Index:0>
+  3. <10, '=', Line:3, Col:10>
+  4. <27, 'Alice', Line:3, Col:12, Index:0>
+  5. <21, ';', Line:3, Col:19>
+  6. <4, 'int', Line:4, Col:1>
+  7. <23, 'greeting', Line:4, Col:5, Index:1>
+  8. <10, '=', Line:4, Col:14>
+  9. <27, 'Hello, World!', Line:4, Col:16, Index:1>
+ 10. <21, ';', Line:4, Col:31>
+ 11. <4, 'int', Line:5, Col:1>
+ 12. <23, 'empty', Line:5, Col:5, Index:2>
+ 13. <10, '=', Line:5, Col:11>
+ 14. <27, '', Line:5, Col:13, Index:2>
+ 15. <21, ';', Line:5, Col:15>
+ 16. <4, 'int', Line:8, Col:1>
+ 17. <23, 'newline', Line:8, Col:5, Index:3>
+ 18. <10, '=', Line:8, Col:13>
+ 19. <27, 'Line1
+Line2', Line:8, Col:15, Index:3>
+ 20. <21, ';', Line:8, Col:29>
+ 21. <4, 'int', Line:9, Col:1>
+ 22. <23, 'tab', Line:9, Col:5, Index:4>
+ 23. <10, '=', Line:9, Col:9>
+ 24. <27, 'Col1	Col2', Line:9, Col:11, Index:4>
+ 25. <21, ';', Line:9, Col:23>
+ 26. <4, 'int', Line:10, Col:1>
+ 27. <23, 'quote', Line:10, Col:5, Index:5>
+ 28. <10, '=', Line:10, Col:11>
+ 29. <27, 'He said "Hello"', Line:10, Col:13, Index:5>
+ 30. <21, ';', Line:10, Col:32>
+ 31. <4, 'int', Line:11, Col:1>
+ 32. <23, 'backslash', Line:11, Col:5, Index:6>
+ 33. <10, '=', Line:11, Col:15>
+ 34. <27, 'Path: C:\Users\test', Line:11, Col:17, Index:6>
+ 35. <21, ';', Line:11, Col:40>
+ 36. <4, 'int', Line:14, Col:1>
+ 37. <23, 'char1', Line:14, Col:5, Index:7>
+ 38. <10, '=', Line:14, Col:11>
+ 39. <27, 'A', Line:14, Col:13, Index:7>
+ 40. <21, ';', Line:14, Col:16>
+ 41. <4, 'int', Line:15, Col:1>
+ 42. <23, 'char2', Line:15, Col:5, Index:8>
+ 43. <10, '=', Line:15, Col:11>
+ 44. <27, 'Hello', Line:15, Col:13, Index:8>
+ 45. <21, ';', Line:15, Col:20>
+ 46. <4, 'int', Line:17, Col:1>
+ 47. <23, 'message', Line:17, Col:5, Index:9>
+ 48. <10, '=', Line:17, Col:13>
+ 49. <27, 'Welcome to Mini Language!', Line:17, Col:15, Index:9>
+ 50. <21, ';', Line:17, Col:42>
+ 51. <5, 'return', Line:19, Col:1>
+ 52. <24, '0', Line:19, Col:8, Index:10>
+ 53. <21, ';', Line:19, Col:9>
+ 54. <28, 'EOF', Line:20, Col:1>
+
+============================================================
+符号表 (标识符)
+============================================================
+  [0] name
+  [1] greeting
+  [2] empty
+  [3] newline
+  [4] tab
+  [5] quote
+  [6] backslash
+  [7] char1
+  [8] char2
+  [9] message
+
+============================================================
+常数表
+============================================================
+  [0] Alice (string)
+  [1] Hello, World! (string)
+  [2]  (string)
+  [3] Line1
+Line2 (string)
+  [4] Col1	Col2 (string)
+  [5] He said "Hello" (string)
+  [6] Path: C:\Users\test (string)
+  [7] A (string)
+  [8] Hello (string)
+  [9] Welcome to Mini Language! (string)
+  [10] 0 (int)

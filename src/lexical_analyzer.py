@@ -1,8 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Mini 语言词法分析器 v2.0 - 改进版
+改进内容：
+1. 支持浮点数
+2. 支持字符串常量
+3. 支持单行注释 //
+4. 符号表/常数表哈希优化
+5. 使用分派表消除巨型 IF-ELSE
+6. 标准 EOF 处理
+7. 错误恢复机制
+"""
+
 import sys
-from typing import List, Optional, Tuple
+from typing import List, Optional, Dict, Union
 from enum import IntEnum
 
 
@@ -31,7 +43,9 @@ class TokenType(IntEnum):
     COMMA = 22
     IDENTIFIER = 23
     INTEGER = 24
-    END = 25
+    FLOAT = 26
+    STRING = 27
+    EOF = 28
 
 
 class Token:
@@ -59,15 +73,18 @@ class SymbolEntry:
 
 
 class ConstantEntry:
-    def __init__(self, value: int, index: int):
+    def __init__(self, value: Union[int, float, str], index: int, const_type: str = "int"):
         self.value = value
         self.index = index
+        self.const_type = const_type
     
     def __repr__(self):
-        return f"[{self.index}] {self.value}"
+        return f"[{self.index}] {self.value} ({self.const_type})"
 
 
 class LexicalAnalyzer:
+    MAX_ERRORS = 10
+    
     def __init__(self, source_code: str):
         self.source = source_code
         self.pos = 0
@@ -83,8 +100,24 @@ class LexicalAnalyzer:
             'return': TokenType.RETURN
         }
         
+        self.simple_tokens = {
+            '(': TokenType.LEFT_PAREN,
+            ')': TokenType.RIGHT_PAREN,
+            '{': TokenType.LEFT_BRACE,
+            '}': TokenType.RIGHT_BRACE,
+            ';': TokenType.SEMICOLON,
+            ',': TokenType.COMMA,
+            '+': TokenType.PLUS,
+            '-': TokenType.MINUS,
+            '*': TokenType.MULTIPLY,
+        }
+        
         self.symbol_table: List[SymbolEntry] = []
+        self.symbol_map: Dict[str, int] = {}
+        
         self.constant_table: List[ConstantEntry] = []
+        self.constant_map: Dict[Union[int, float, str], int] = {}
+        
         self.tokens: List[Token] = []
         self.errors: List[str] = []
     
@@ -92,6 +125,10 @@ class LexicalAnalyzer:
         error_msg = f"错误 (行 {self.line}, 列 {self.column}): {message}"
         self.errors.append(error_msg)
         print(error_msg)
+        
+        if len(self.errors) >= self.MAX_ERRORS:
+            print(f"\n错误数量已达到上限 ({self.MAX_ERRORS})，停止分析")
+            raise Exception(f"错误过多，停止编译")
     
     def advance(self):
         if self.current_char == '\n':
@@ -116,7 +153,7 @@ class LexicalAnalyzer:
         while self.current_char and self.current_char in ' \t\n\r':
             self.advance()
     
-    def skip_comment(self):
+    def skip_block_comment(self) -> bool:
         if self.current_char == '/' and self.peek() == '*':
             self.advance()
             self.advance()
@@ -128,8 +165,17 @@ class LexicalAnalyzer:
                     return True
                 self.advance()
             
-            self.error("未闭合的注释")
+            self.error("未闭合的块注释")
             return False
+        return False
+    
+    def skip_line_comment(self) -> bool:
+        if self.current_char == '/' and self.peek() == '/':
+            while self.current_char and self.current_char != '\n':
+                self.advance()
+            if self.current_char == '\n':
+                self.advance()
+            return True
         return False
     
     def read_identifier(self) -> Token:
@@ -151,31 +197,76 @@ class LexicalAnalyzer:
         start_line = self.line
         start_column = self.column
         result = ''
+        is_float = False
         
-        while self.current_char and self.current_char.isdigit():
+        while self.current_char and (self.current_char.isdigit() or self.current_char == '.'):
+            if self.current_char == '.':
+                if is_float:
+                    break
+                if not self.peek() or not self.peek().isdigit():
+                    break
+                is_float = True
             result += self.current_char
             self.advance()
         
-        value = int(result)
-        index = self.add_to_constant_table(value)
-        return Token(TokenType.INTEGER, result, start_line, start_column, index)
+        if is_float:
+            value = float(result)
+            index = self.add_to_constant_table(value, "float")
+            return Token(TokenType.FLOAT, result, start_line, start_column, index)
+        else:
+            value = int(result)
+            index = self.add_to_constant_table(value, "int")
+            return Token(TokenType.INTEGER, result, start_line, start_column, index)
+    
+    def read_string(self) -> Token:
+        start_line = self.line
+        start_column = self.column
+        quote_char = self.current_char
+        self.advance()
+        
+        result = ''
+        while self.current_char and self.current_char != quote_char:
+            if self.current_char == '\n':
+                self.error(f"字符串常量未闭合")
+                break
+            
+            if self.current_char == '\\':
+                self.advance()
+                if self.current_char in 'ntr"\'\\':
+                    escape_map = {'n': '\n', 't': '\t', 'r': '\r', '"': '"', "'": "'", '\\': '\\'}
+                    result += escape_map.get(self.current_char, self.current_char)
+                    self.advance()
+                else:
+                    result += self.current_char
+                    self.advance()
+            else:
+                result += self.current_char
+                self.advance()
+        
+        if self.current_char == quote_char:
+            self.advance()
+        else:
+            self.error(f"字符串常量未闭合")
+        
+        index = self.add_to_constant_table(result, "string")
+        return Token(TokenType.STRING, result, start_line, start_column, index)
     
     def add_to_symbol_table(self, name: str) -> int:
-        for entry in self.symbol_table:
-            if entry.name == name:
-                return entry.index
+        if name in self.symbol_map:
+            return self.symbol_map[name]
         
         index = len(self.symbol_table)
         self.symbol_table.append(SymbolEntry(name, index))
+        self.symbol_map[name] = index
         return index
     
-    def add_to_constant_table(self, value: int) -> int:
-        for entry in self.constant_table:
-            if entry.value == value:
-                return entry.index
+    def add_to_constant_table(self, value: Union[int, float, str], const_type: str) -> int:
+        if value in self.constant_map:
+            return self.constant_map[value]
         
         index = len(self.constant_table)
-        self.constant_table.append(ConstantEntry(value, index))
+        self.constant_table.append(ConstantEntry(value, index, const_type))
+        self.constant_map[value] = index
         return index
     
     def get_next_token(self) -> Optional[Token]:
@@ -185,7 +276,11 @@ class LexicalAnalyzer:
                 continue
             
             if self.current_char == '/' and self.peek() == '*':
-                self.skip_comment()
+                self.skip_block_comment()
+                continue
+            
+            if self.current_char == '/' and self.peek() == '/':
+                self.skip_line_comment()
                 continue
             
             if self.current_char.isalpha() or self.current_char == '_':
@@ -194,20 +289,17 @@ class LexicalAnalyzer:
             if self.current_char.isdigit():
                 return self.read_number()
             
+            if self.current_char in '"\'':
+                return self.read_string()
+            
             start_line = self.line
             start_column = self.column
             
-            if self.current_char == '+':
+            if self.current_char in self.simple_tokens:
+                token_type = self.simple_tokens[self.current_char]
+                val = self.current_char
                 self.advance()
-                return Token(TokenType.PLUS, '+', start_line, start_column)
-            
-            if self.current_char == '-':
-                self.advance()
-                return Token(TokenType.MINUS, '-', start_line, start_column)
-            
-            if self.current_char == '*':
-                self.advance()
-                return Token(TokenType.MULTIPLY, '*', start_line, start_column)
+                return Token(token_type, val, start_line, start_column)
             
             if self.current_char == '/':
                 self.advance()
@@ -243,48 +335,23 @@ class LexicalAnalyzer:
                     return Token(TokenType.GREATER_EQUAL, '>=', start_line, start_column)
                 return Token(TokenType.GREATER, '>', start_line, start_column)
             
-            if self.current_char == '(':
-                self.advance()
-                return Token(TokenType.LEFT_PAREN, '(', start_line, start_column)
-            
-            if self.current_char == ')':
-                self.advance()
-                return Token(TokenType.RIGHT_PAREN, ')', start_line, start_column)
-            
-            if self.current_char == '{':
-                self.advance()
-                return Token(TokenType.LEFT_BRACE, '{', start_line, start_column)
-            
-            if self.current_char == '}':
-                self.advance()
-                return Token(TokenType.RIGHT_BRACE, '}', start_line, start_column)
-            
-            if self.current_char == ';':
-                self.advance()
-                return Token(TokenType.SEMICOLON, ';', start_line, start_column)
-            
-            if self.current_char == ',':
-                self.advance()
-                return Token(TokenType.COMMA, ',', start_line, start_column)
-            
-            if self.current_char == '#':
-                self.advance()
-                return Token(TokenType.END, '#', start_line, start_column)
-            
             self.error(f"非法字符 '{self.current_char}'")
             self.advance()
         
-        return None
+        return Token(TokenType.EOF, 'EOF', self.line, self.column)
     
     def analyze(self) -> List[Token]:
-        while True:
-            token = self.get_next_token()
-            if token:
-                self.tokens.append(token)
-                if token.type == TokenType.END:
+        try:
+            while True:
+                token = self.get_next_token()
+                if token:
+                    self.tokens.append(token)
+                    if token.type == TokenType.EOF:
+                        break
+                else:
                     break
-            else:
-                break
+        except Exception as e:
+            print(f"\n分析中断: {e}")
         
         return self.tokens
     
@@ -358,12 +425,12 @@ class LexicalAnalyzer:
 
 def main():
     if len(sys.argv) < 2:
-        print("用法: python lexical_analyzer.py <源文件路径> [输出文件路径]")
-        print("示例: python lexical_analyzer.py test_correct.mini output.txt")
+        print("用法: python lexical_analyzer_v2.py <源文件路径> [输出文件路径]")
+        print("示例: python lexical_analyzer_v2.py test.mini output.txt")
         return
     
     input_file = sys.argv[1]
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "tokens_output.txt"
+    output_file = sys.argv[2] if len(sys.argv) > 2 else "tokens_output_v2.txt"
     
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
