@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.code-workspace
+
+# macOS (递归匹配所有目录)
+**/.DS_Store
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+._*
+Thumbs.db
+
+# Output files (可选，如果不想提交输出文件)
+# outputs/*.txt
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+*~
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv
