@@ -1,0 +1,24 @@
+// 词法错误测试：未闭合字符串
+// 预期：检测到未闭合字符串错误，并恢复继续分析
+
+int str1 = "hello world;
+// 错误：双引号字符串未闭合
+
+int str2 = 'test string;
+// 错误：单引号字符串未闭合
+
+// 正常字符串（测试错误恢复）
+int str3 = "normal string";
+int str4 = 'another string';
+
+int x = 10;
+
+int str5 = "unclosed again;
+// 错误：又一个未闭合字符串
+
+// 正常代码
+if (x > 0) {
+    int valid = "this is ok";
+}
+
+return 0;

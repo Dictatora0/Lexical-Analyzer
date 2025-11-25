@@ -1,0 +1,184 @@
+Token序列
+============================================================
+  1. <4, 'int', Line:4, Col:1>
+  2. <23, 'gravity', Line:4, Col:5, Index:0>
+  3. <10, '=', Line:4, Col:13>
+  4. <26, '9.8e0', Line:4, Col:15, Index:0>
+  5. <21, ';', Line:4, Col:20>
+  6. <4, 'int', Line:5, Col:1>
+  7. <23, 'electron', Line:5, Col:5, Index:1>
+  8. <10, '=', Line:5, Col:14>
+  9. <26, '9.109e-31', Line:5, Col:16, Index:1>
+ 10. <21, ';', Line:5, Col:25>
+ 11. <4, 'int', Line:6, Col:1>
+ 12. <23, 'proton', Line:6, Col:5, Index:2>
+ 13. <10, '=', Line:6, Col:12>
+ 14. <26, '1.673e-27', Line:6, Col:14, Index:2>
+ 15. <21, ';', Line:6, Col:23>
+ 16. <4, 'int', Line:8, Col:1>
+ 17. <23, 'counter', Line:8, Col:5, Index:3>
+ 18. <10, '=', Line:8, Col:13>
+ 19. <24, '0', Line:8, Col:15, Index:3>
+ 20. <21, ';', Line:8, Col:16>
+ 21. <4, 'int', Line:9, Col:1>
+ 22. <23, 'limit', Line:9, Col:5, Index:4>
+ 23. <10, '=', Line:9, Col:11>
+ 24. <24, '100', Line:9, Col:13, Index:4>
+ 25. <21, ';', Line:9, Col:16>
+ 26. <1, 'if', Line:12, Col:1>
+ 27. <17, '(', Line:12, Col:4>
+ 28. <23, 'gravity', Line:12, Col:5, Index:0>
+ 29. <15, '>', Line:12, Col:13>
+ 30. <26, '0.0', Line:12, Col:15, Index:3>
+ 31. <29, '&&', Line:12, Col:19>
+ 32. <23, 'electron', Line:12, Col:22, Index:1>
+ 33. <13, '<', Line:12, Col:31>
+ 34. <23, 'proton', Line:12, Col:33, Index:2>
+ 35. <18, ')', Line:12, Col:39>
+ 36. <19, '{', Line:12, Col:41>
+ 37. <23, 'counter', Line:13, Col:5, Index:3>
+ 38. <31, '++', Line:13, Col:12>
+ 39. <21, ';', Line:13, Col:14>
+ 40. <23, 'limit', Line:14, Col:5, Index:4>
+ 41. <32, '--', Line:14, Col:10>
+ 42. <21, ';', Line:14, Col:12>
+ 43. <20, '}', Line:15, Col:1>
+ 44. <3, 'while', Line:18, Col:1>
+ 45. <17, '(', Line:18, Col:7>
+ 46. <23, 'counter', Line:18, Col:8, Index:3>
+ 47. <13, '<', Line:18, Col:16>
+ 48. <23, 'limit', Line:18, Col:18, Index:4>
+ 49. <30, '||', Line:18, Col:24>
+ 50. <23, 'electron', Line:18, Col:27, Index:1>
+ 51. <12, '!=', Line:18, Col:36>
+ 52. <26, '0.0', Line:18, Col:39, Index:3>
+ 53. <18, ')', Line:18, Col:42>
+ 54. <19, '{', Line:18, Col:44>
+ 55. <31, '++', Line:19, Col:5>
+ 56. <23, 'counter', Line:19, Col:7, Index:3>
+ 57. <21, ';', Line:19, Col:14>
+ 58. <1, 'if', Line:20, Col:5>
+ 59. <17, '(', Line:20, Col:8>
+ 60. <23, 'counter', Line:20, Col:9, Index:3>
+ 61. <16, '>=', Line:20, Col:17>
+ 62. <24, '50', Line:20, Col:20, Index:5>
+ 63. <29, '&&', Line:20, Col:23>
+ 64. <23, 'counter', Line:20, Col:26, Index:3>
+ 65. <14, '<=', Line:20, Col:34>
+ 66. <24, '75', Line:20, Col:37, Index:6>
+ 67. <18, ')', Line:20, Col:39>
+ 68. <19, '{', Line:20, Col:41>
+ 69. <4, 'int', Line:21, Col:9>
+ 70. <23, 'temp', Line:21, Col:13, Index:5>
+ 71. <10, '=', Line:21, Col:18>
+ 72. <23, 'counter', Line:21, Col:20, Index:3>
+ 73. <8, '*', Line:21, Col:28>
+ 74. <24, '2', Line:21, Col:30, Index:7>
+ 75. <21, ';', Line:21, Col:31>
+ 76. <20, '}', Line:22, Col:5>
+ 77. <32, '--', Line:23, Col:5>
+ 78. <23, 'limit', Line:23, Col:7, Index:4>
+ 79. <21, ';', Line:23, Col:12>
+ 80. <20, '}', Line:24, Col:1>
+ 81. <4, 'int', Line:27, Col:1>
+ 82. <23, 'speed', Line:27, Col:5, Index:6>
+ 83. <10, '=', Line:27, Col:11>
+ 84. <26, '3.0e8', Line:27, Col:13, Index:8>
+ 85. <21, ';', Line:27, Col:18>
+ 86. <4, 'int', Line:28, Col:1>
+ 87. <23, 'distance', Line:28, Col:5, Index:7>
+ 88. <10, '=', Line:28, Col:14>
+ 89. <26, '1.5e11', Line:28, Col:16, Index:9>
+ 90. <21, ';', Line:28, Col:22>
+ 91. <4, 'int', Line:29, Col:1>
+ 92. <23, 'time', Line:29, Col:5, Index:8>
+ 93. <10, '=', Line:29, Col:10>
+ 94. <23, 'distance', Line:29, Col:12, Index:7>
+ 95. <9, '/', Line:29, Col:21>
+ 96. <23, 'speed', Line:29, Col:23, Index:6>
+ 97. <21, ';', Line:29, Col:28>
+ 98. <1, 'if', Line:32, Col:1>
+ 99. <17, '(', Line:32, Col:4>
+100. <17, '(', Line:32, Col:5>
+101. <23, 'time', Line:32, Col:6, Index:8>
+102. <15, '>', Line:32, Col:11>
+103. <26, '0.0', Line:32, Col:13, Index:3>
+104. <18, ')', Line:32, Col:16>
+105. <29, '&&', Line:32, Col:18>
+106. <17, '(', Line:32, Col:21>
+107. <23, 'speed', Line:32, Col:22, Index:6>
+108. <11, '==', Line:32, Col:28>
+109. <26, '3.0e8', Line:32, Col:31, Index:8>
+110. <30, '||', Line:32, Col:37>
+111. <23, 'distance', Line:32, Col:40, Index:7>
+112. <15, '>', Line:32, Col:49>
+113. <26, '1.0e10', Line:32, Col:51, Index:10>
+114. <18, ')', Line:32, Col:57>
+115. <18, ')', Line:32, Col:58>
+116. <19, '{', Line:32, Col:60>
+117. <4, 'int', Line:33, Col:5>
+118. <23, 'valid', Line:33, Col:9, Index:9>
+119. <10, '=', Line:33, Col:15>
+120. <24, '1', Line:33, Col:17, Index:11>
+121. <21, ';', Line:33, Col:18>
+122. <20, '}', Line:34, Col:1>
+123. <4, 'int', Line:37, Col:1>
+124. <23, 'x', Line:37, Col:5, Index:10>
+125. <10, '=', Line:37, Col:7>
+126. <24, '10', Line:37, Col:9, Index:12>
+127. <21, ';', Line:37, Col:11>
+128. <4, 'int', Line:38, Col:1>
+129. <23, 'y', Line:38, Col:5, Index:11>
+130. <10, '=', Line:38, Col:7>
+131. <24, '20', Line:38, Col:9, Index:13>
+132. <21, ';', Line:38, Col:11>
+133. <23, 'x', Line:39, Col:1, Index:10>
+134. <31, '++', Line:39, Col:2>
+135. <29, '&&', Line:39, Col:5>
+136. <23, 'y', Line:39, Col:8, Index:11>
+137. <32, '--', Line:39, Col:9>
+138. <21, ';', Line:39, Col:11>
+139. <31, '++', Line:40, Col:1>
+140. <23, 'x', Line:40, Col:3, Index:10>
+141. <30, '||', Line:40, Col:5>
+142. <32, '--', Line:40, Col:8>
+143. <23, 'y', Line:40, Col:10, Index:11>
+144. <21, ';', Line:40, Col:11>
+145. <5, 'return', Line:42, Col:1>
+146. <24, '0', Line:42, Col:8, Index:3>
+147. <21, ';', Line:42, Col:9>
+148. <28, 'EOF', Line:43, Col:1>
+
+============================================================
+符号表 (标识符)
+============================================================
+  [0] gravity
+  [1] electron
+  [2] proton
+  [3] counter
+  [4] limit
+  [5] temp
+  [6] speed
+  [7] distance
+  [8] time
+  [9] valid
+  [10] x
+  [11] y
+
+============================================================
+常数表
+============================================================
+  [0] 9.8 (float)
+  [1] 9.109e-31 (float)
+  [2] 1.673e-27 (float)
+  [3] 0 (int)
+  [4] 100 (int)
+  [5] 50 (int)
+  [6] 75 (int)
+  [7] 2 (int)
+  [8] 300000000.0 (float)
+  [9] 150000000000.0 (float)
+  [10] 10000000000.0 (float)
+  [11] 1 (int)
+  [12] 10 (int)
+  [13] 20 (int)

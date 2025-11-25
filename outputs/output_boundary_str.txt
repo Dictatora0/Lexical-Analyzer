@@ -1,0 +1,137 @@
+Token序列
+============================================================
+  1. <4, 'int', Line:5, Col:1>
+  2. <23, 'empty', Line:5, Col:5, Index:0>
+  3. <10, '=', Line:5, Col:11>
+  4. <27, '', Line:5, Col:13, Index:0>
+  5. <21, ';', Line:5, Col:15>
+  6. <4, 'int', Line:6, Col:1>
+  7. <23, 'single_empty', Line:6, Col:5, Index:1>
+  8. <10, '=', Line:6, Col:18>
+  9. <27, '', Line:6, Col:20, Index:0>
+ 10. <21, ';', Line:6, Col:22>
+ 11. <4, 'int', Line:9, Col:1>
+ 12. <23, 'char_a', Line:9, Col:5, Index:2>
+ 13. <10, '=', Line:9, Col:12>
+ 14. <27, 'a', Line:9, Col:14, Index:1>
+ 15. <21, ';', Line:9, Col:17>
+ 16. <4, 'int', Line:10, Col:1>
+ 17. <23, 'char_b', Line:10, Col:5, Index:3>
+ 18. <10, '=', Line:10, Col:12>
+ 19. <27, 'b', Line:10, Col:14, Index:2>
+ 20. <21, ';', Line:10, Col:17>
+ 21. <4, 'int', Line:13, Col:1>
+ 22. <23, 'space', Line:13, Col:5, Index:4>
+ 23. <10, '=', Line:13, Col:11>
+ 24. <27, ' ', Line:13, Col:13, Index:3>
+ 25. <21, ';', Line:13, Col:16>
+ 26. <4, 'int', Line:14, Col:1>
+ 27. <23, 'spaces', Line:14, Col:5, Index:5>
+ 28. <10, '=', Line:14, Col:12>
+ 29. <27, '     ', Line:14, Col:14, Index:4>
+ 30. <21, ';', Line:14, Col:21>
+ 31. <4, 'int', Line:15, Col:1>
+ 32. <23, 'tab_str', Line:15, Col:5, Index:6>
+ 33. <10, '=', Line:15, Col:13>
+ 34. <27, '	', Line:15, Col:15, Index:5>
+ 35. <21, ';', Line:15, Col:18>
+ 36. <4, 'int', Line:18, Col:1>
+ 37. <23, 'escape_n', Line:18, Col:5, Index:7>
+ 38. <10, '=', Line:18, Col:14>
+ 39. <27, 'line
+break', Line:18, Col:16, Index:6>
+ 40. <21, ';', Line:18, Col:29>
+ 41. <4, 'int', Line:19, Col:1>
+ 42. <23, 'escape_t', Line:19, Col:5, Index:8>
+ 43. <10, '=', Line:19, Col:14>
+ 44. <27, 'tab	character', Line:19, Col:16, Index:7>
+ 45. <21, ';', Line:19, Col:32>
+ 46. <4, 'int', Line:20, Col:1>
+ 47. <23, 'escape_r', Line:20, Col:5, Index:9>
+ 48. <10, '=', Line:20, Col:14>
+ 49. <27, 'carriagereturn', Line:20, Col:16, Index:8>
+ 50. <21, ';', Line:20, Col:34>
+ 51. <4, 'int', Line:21, Col:1>
+ 52. <23, 'escape_bs', Line:21, Col:5, Index:10>
+ 53. <10, '=', Line:21, Col:15>
+ 54. <27, 'back\slash', Line:21, Col:17, Index:9>
+ 55. <21, ';', Line:21, Col:30>
+ 56. <4, 'int', Line:22, Col:1>
+ 57. <23, 'escape_q1', Line:22, Col:5, Index:11>
+ 58. <10, '=', Line:22, Col:15>
+ 59. <27, 'double"quote', Line:22, Col:17, Index:10>
+ 60. <21, ';', Line:22, Col:32>
+ 61. <4, 'int', Line:23, Col:1>
+ 62. <23, 'escape_q2', Line:23, Col:5, Index:12>
+ 63. <10, '=', Line:23, Col:15>
+ 64. <27, 'single'quote', Line:23, Col:17, Index:11>
+ 65. <21, ';', Line:23, Col:32>
+ 66. <4, 'int', Line:26, Col:1>
+ 67. <23, 'mixed', Line:26, Col:5, Index:13>
+ 68. <10, '=', Line:26, Col:11>
+ 69. <27, 'Mixed	Escapes
+And"Quotes"', Line:26, Col:13, Index:12>
+ 70. <21, ';', Line:26, Col:44>
+ 71. <4, 'int', Line:29, Col:1>
+ 72. <23, 'long_str', Line:29, Col:5, Index:14>
+ 73. <10, '=', Line:29, Col:14>
+ 74. <27, 'This is a very long string that contains many characters to test the buffer handling of the lexical analyzer. It should be able to handle strings of arbitrary length without crashing or truncating.', Line:29, Col:16, Index:13>
+ 75. <21, ';', Line:29, Col:215>
+ 76. <4, 'int', Line:32, Col:1>
+ 77. <23, 'symbols', Line:32, Col:5, Index:15>
+ 78. <10, '=', Line:32, Col:13>
+ 79. <27, '!@#$%^&*()_+{}[]:;<>?,./', Line:32, Col:15, Index:14>
+ 80. <21, ';', Line:32, Col:41>
+ 81. <4, 'int', Line:33, Col:1>
+ 82. <23, 'chinese', Line:33, Col:5, Index:16>
+ 83. <10, '=', Line:33, Col:13>
+ 84. <27, '测试中文支持', Line:33, Col:15, Index:15>
+ 85. <21, ';', Line:33, Col:23>
+ 86. <5, 'return', Line:35, Col:1>
+ 87. <24, '0', Line:35, Col:8, Index:16>
+ 88. <21, ';', Line:35, Col:9>
+ 89. <28, 'EOF', Line:36, Col:1>
+
+============================================================
+符号表 (标识符)
+============================================================
+  [0] empty
+  [1] single_empty
+  [2] char_a
+  [3] char_b
+  [4] space
+  [5] spaces
+  [6] tab_str
+  [7] escape_n
+  [8] escape_t
+  [9] escape_r
+  [10] escape_bs
+  [11] escape_q1
+  [12] escape_q2
+  [13] mixed
+  [14] long_str
+  [15] symbols
+  [16] chinese
+
+============================================================
+常数表
+============================================================
+  [0]  (string)
+  [1] a (string)
+  [2] b (string)
+  [3]   (string)
+  [4]       (string)
+  [5] 	 (string)
+  [6] line
+break (string)
+  [7] tab	character (string)
+  [8] carriagereturn (string)
+  [9] back\slash (string)
+  [10] double"quote (string)
+  [11] single'quote (string)
+  [12] Mixed	Escapes
+And"Quotes" (string)
+  [13] This is a very long string that contains many characters to test the buffer handling of the lexical analyzer. It should be able to handle strings of arbitrary length without crashing or truncating. (string)
+  [14] !@#$%^&*()_+{}[]:;<>?,./ (string)
+  [15] 测试中文支持 (string)
+  [16] 0 (int)

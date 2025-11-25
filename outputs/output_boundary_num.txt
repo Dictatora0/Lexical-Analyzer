@@ -1,0 +1,189 @@
+Token序列
+============================================================
+  1. <4, 'int', Line:5, Col:1>
+  2. <23, 'zero', Line:5, Col:5, Index:0>
+  3. <10, '=', Line:5, Col:10>
+  4. <24, '0', Line:5, Col:12, Index:0>
+  5. <21, ';', Line:5, Col:13>
+  6. <4, 'int', Line:6, Col:1>
+  7. <23, 'one', Line:6, Col:5, Index:1>
+  8. <10, '=', Line:6, Col:9>
+  9. <24, '1', Line:6, Col:11, Index:1>
+ 10. <21, ';', Line:6, Col:12>
+ 11. <4, 'int', Line:7, Col:1>
+ 12. <23, 'small', Line:7, Col:5, Index:2>
+ 13. <10, '=', Line:7, Col:11>
+ 14. <24, '10', Line:7, Col:13, Index:2>
+ 15. <21, ';', Line:7, Col:15>
+ 16. <4, 'int', Line:8, Col:1>
+ 17. <23, 'medium', Line:8, Col:5, Index:3>
+ 18. <10, '=', Line:8, Col:12>
+ 19. <24, '12345', Line:8, Col:14, Index:3>
+ 20. <21, ';', Line:8, Col:19>
+ 21. <4, 'int', Line:9, Col:1>
+ 22. <23, 'large', Line:9, Col:5, Index:4>
+ 23. <10, '=', Line:9, Col:11>
+ 24. <24, '999999', Line:9, Col:13, Index:4>
+ 25. <21, ';', Line:9, Col:19>
+ 26. <4, 'int', Line:10, Col:1>
+ 27. <23, 'huge', Line:10, Col:5, Index:5>
+ 28. <10, '=', Line:10, Col:10>
+ 29. <24, '999999999', Line:10, Col:12, Index:5>
+ 30. <21, ';', Line:10, Col:21>
+ 31. <4, 'int', Line:13, Col:1>
+ 32. <23, 'fzero', Line:13, Col:5, Index:6>
+ 33. <10, '=', Line:13, Col:11>
+ 34. <26, '0.0', Line:13, Col:13, Index:0>
+ 35. <21, ';', Line:13, Col:16>
+ 36. <4, 'int', Line:14, Col:1>
+ 37. <23, 'ftiny', Line:14, Col:5, Index:7>
+ 38. <10, '=', Line:14, Col:11>
+ 39. <26, '0.001', Line:14, Col:13, Index:6>
+ 40. <21, ';', Line:14, Col:18>
+ 41. <4, 'int', Line:15, Col:1>
+ 42. <23, 'fsmall', Line:15, Col:5, Index:8>
+ 43. <10, '=', Line:15, Col:12>
+ 44. <26, '1.5', Line:15, Col:14, Index:7>
+ 45. <21, ';', Line:15, Col:17>
+ 46. <4, 'int', Line:16, Col:1>
+ 47. <23, 'fpi', Line:16, Col:5, Index:9>
+ 48. <10, '=', Line:16, Col:9>
+ 49. <26, '3.14159', Line:16, Col:11, Index:8>
+ 50. <21, ';', Line:16, Col:18>
+ 51. <4, 'int', Line:17, Col:1>
+ 52. <23, 'flarge', Line:17, Col:5, Index:10>
+ 53. <10, '=', Line:17, Col:12>
+ 54. <26, '999.999', Line:17, Col:14, Index:9>
+ 55. <21, ';', Line:17, Col:21>
+ 56. <4, 'int', Line:18, Col:1>
+ 57. <23, 'fhuge', Line:18, Col:5, Index:11>
+ 58. <10, '=', Line:18, Col:11>
+ 59. <26, '999999.999999', Line:18, Col:13, Index:10>
+ 60. <21, ';', Line:18, Col:26>
+ 61. <4, 'int', Line:21, Col:1>
+ 62. <23, 'sci_min', Line:21, Col:5, Index:12>
+ 63. <10, '=', Line:21, Col:13>
+ 64. <26, '1e-999', Line:21, Col:15, Index:0>
+ 65. <21, ';', Line:21, Col:21>
+ 66. <4, 'int', Line:22, Col:1>
+ 67. <23, 'sci_small', Line:22, Col:5, Index:13>
+ 68. <10, '=', Line:22, Col:15>
+ 69. <26, '1e-10', Line:22, Col:17, Index:11>
+ 70. <21, ';', Line:22, Col:22>
+ 71. <4, 'int', Line:23, Col:1>
+ 72. <23, 'sci_zero', Line:23, Col:5, Index:14>
+ 73. <10, '=', Line:23, Col:14>
+ 74. <26, '1.0e0', Line:23, Col:16, Index:1>
+ 75. <21, ';', Line:23, Col:21>
+ 76. <4, 'int', Line:24, Col:1>
+ 77. <23, 'sci_normal', Line:24, Col:5, Index:15>
+ 78. <10, '=', Line:24, Col:16>
+ 79. <26, '1.2e5', Line:24, Col:18, Index:12>
+ 80. <21, ';', Line:24, Col:23>
+ 81. <4, 'int', Line:25, Col:1>
+ 82. <23, 'sci_large', Line:25, Col:5, Index:16>
+ 83. <10, '=', Line:25, Col:15>
+ 84. <26, '1e10', Line:25, Col:17, Index:13>
+ 85. <21, ';', Line:25, Col:21>
+ 86. <4, 'int', Line:26, Col:1>
+ 87. <23, 'sci_max', Line:26, Col:5, Index:17>
+ 88. <10, '=', Line:26, Col:13>
+ 89. <26, '1e+999', Line:26, Col:15, Index:14>
+ 90. <21, ';', Line:26, Col:21>
+ 91. <4, 'int', Line:29, Col:1>
+ 92. <23, 'planck', Line:29, Col:5, Index:18>
+ 93. <10, '=', Line:29, Col:12>
+ 94. <26, '6.626e-34', Line:29, Col:14, Index:15>
+ 95. <21, ';', Line:29, Col:23>
+ 96. <4, 'int', Line:30, Col:1>
+ 97. <23, 'avogadro', Line:30, Col:5, Index:19>
+ 98. <10, '=', Line:30, Col:14>
+ 99. <26, '6.022e23', Line:30, Col:16, Index:16>
+100. <21, ';', Line:30, Col:24>
+101. <4, 'int', Line:31, Col:1>
+102. <23, 'light', Line:31, Col:5, Index:20>
+103. <10, '=', Line:31, Col:11>
+104. <26, '2.998e8', Line:31, Col:13, Index:17>
+105. <21, ';', Line:31, Col:20>
+106. <4, 'int', Line:32, Col:1>
+107. <23, 'electron', Line:32, Col:5, Index:21>
+108. <10, '=', Line:32, Col:14>
+109. <26, '9.109e-31', Line:32, Col:16, Index:18>
+110. <21, ';', Line:32, Col:25>
+111. <4, 'int', Line:35, Col:1>
+112. <23, 'result1', Line:35, Col:5, Index:22>
+113. <10, '=', Line:35, Col:13>
+114. <23, 'zero', Line:35, Col:15, Index:0>
+115. <6, '+', Line:35, Col:20>
+116. <23, 'one', Line:35, Col:22, Index:1>
+117. <21, ';', Line:35, Col:25>
+118. <4, 'int', Line:36, Col:1>
+119. <23, 'result2', Line:36, Col:5, Index:23>
+120. <10, '=', Line:36, Col:13>
+121. <23, 'ftiny', Line:36, Col:15, Index:7>
+122. <8, '*', Line:36, Col:21>
+123. <23, 'fhuge', Line:36, Col:23, Index:11>
+124. <21, ';', Line:36, Col:28>
+125. <4, 'int', Line:37, Col:1>
+126. <23, 'result3', Line:37, Col:5, Index:24>
+127. <10, '=', Line:37, Col:13>
+128. <23, 'sci_min', Line:37, Col:15, Index:12>
+129. <6, '+', Line:37, Col:23>
+130. <23, 'sci_max', Line:37, Col:25, Index:17>
+131. <21, ';', Line:37, Col:32>
+132. <5, 'return', Line:39, Col:1>
+133. <24, '0', Line:39, Col:8, Index:0>
+134. <21, ';', Line:39, Col:9>
+135. <28, 'EOF', Line:40, Col:1>
+
+============================================================
+符号表 (标识符)
+============================================================
+  [0] zero
+  [1] one
+  [2] small
+  [3] medium
+  [4] large
+  [5] huge
+  [6] fzero
+  [7] ftiny
+  [8] fsmall
+  [9] fpi
+  [10] flarge
+  [11] fhuge
+  [12] sci_min
+  [13] sci_small
+  [14] sci_zero
+  [15] sci_normal
+  [16] sci_large
+  [17] sci_max
+  [18] planck
+  [19] avogadro
+  [20] light
+  [21] electron
+  [22] result1
+  [23] result2
+  [24] result3
+
+============================================================
+常数表
+============================================================
+  [0] 0 (int)
+  [1] 1 (int)
+  [2] 10 (int)
+  [3] 12345 (int)
+  [4] 999999 (int)
+  [5] 999999999 (int)
+  [6] 0.001 (float)
+  [7] 1.5 (float)
+  [8] 3.14159 (float)
+  [9] 999.999 (float)
+  [10] 999999.999999 (float)
+  [11] 1e-10 (float)
+  [12] 120000.0 (float)
+  [13] 10000000000.0 (float)
+  [14] inf (float)
+  [15] 6.626e-34 (float)
+  [16] 6.022e+23 (float)
+  [17] 299800000.0 (float)
+  [18] 9.109e-31 (float)

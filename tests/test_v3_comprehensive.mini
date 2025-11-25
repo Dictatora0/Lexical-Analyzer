@@ -1,0 +1,42 @@
+// v3.0 综合功能测试
+// 测试：科学计数法 + 逻辑运算符 + 自增自减 + Tab处理
+
+int gravity = 9.8e0;
+int electron = 9.109e-31;
+int proton = 1.673e-27;
+
+int counter = 0;
+int limit = 100;
+
+// 使用逻辑运算符
+if (gravity > 0.0 && electron < proton) {
+	counter++;	// 这行使用了Tab缩进
+	limit--;
+}
+
+// 复杂条件
+while (counter < limit || electron != 0.0) {
+	++counter;
+	if (counter >= 50 && counter <= 75) {
+		int temp = counter * 2;
+	}
+	--limit;
+}
+
+// 科学计数法计算
+int speed = 3.0e8;
+int distance = 1.5e11;
+int time = distance / speed;
+
+// 逻辑组合
+if ((time > 0.0) && (speed == 3.0e8 || distance > 1.0e10)) {
+	int valid = 1;
+}
+
+// 自增自减组合
+int x = 10;
+int y = 20;
+x++ && y--;
+++x || --y;
+
+return 0;

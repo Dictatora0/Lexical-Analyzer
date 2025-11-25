@@ -1,0 +1,35 @@
+// 边界测试：字符串边界
+// 测试各种极端字符串
+
+// 空字符串
+int empty = "";
+int single_empty = '';
+
+// 单字符字符串
+int char_a = "a";
+int char_b = 'b';
+
+// 包含空白的字符串
+int space = " ";
+int spaces = "     ";
+int tab_str = "	";
+
+// 包含各种转义字符
+int escape_n = "line\nbreak";
+int escape_t = "tab\tcharacter";
+int escape_r = "carriage\rreturn";
+int escape_bs = "back\\slash";
+int escape_q1 = "double\"quote";
+int escape_q2 = 'single\'quote';
+
+// 混合转义
+int mixed = "Mixed\tEscapes\nAnd\"Quotes\"";
+
+// 长字符串（模拟）
+int long_str = "This is a very long string that contains many characters to test the buffer handling of the lexical analyzer. It should be able to handle strings of arbitrary length without crashing or truncating.";
+
+// 特殊字符
+int symbols = "!@#$%^&*()_+{}[]:;<>?,./";
+int chinese = "测试中文支持";
+
+return 0;

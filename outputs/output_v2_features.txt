@@ -1,0 +1,130 @@
+Token序列
+============================================================
+  1. <4, 'int', Line:4, Col:1>
+  2. <23, 'a', Line:4, Col:5, Index:0>
+  3. <10, '=', Line:4, Col:7>
+  4. <24, '10', Line:4, Col:9, Index:0>
+  5. <21, ';', Line:4, Col:11>
+  6. <4, 'int', Line:5, Col:1>
+  7. <23, 'b', Line:5, Col:5, Index:1>
+  8. <10, '=', Line:5, Col:7>
+  9. <24, '20', Line:5, Col:9, Index:1>
+ 10. <21, ';', Line:5, Col:11>
+ 11. <4, 'int', Line:8, Col:1>
+ 12. <23, 'pi', Line:8, Col:5, Index:2>
+ 13. <10, '=', Line:8, Col:8>
+ 14. <26, '3.14159', Line:8, Col:10, Index:2>
+ 15. <21, ';', Line:8, Col:17>
+ 16. <4, 'int', Line:9, Col:1>
+ 17. <23, 'e', Line:9, Col:5, Index:3>
+ 18. <10, '=', Line:9, Col:7>
+ 19. <26, '2.71828', Line:9, Col:9, Index:3>
+ 20. <21, ';', Line:9, Col:16>
+ 21. <4, 'int', Line:10, Col:1>
+ 22. <23, 'ratio', Line:10, Col:5, Index:4>
+ 23. <10, '=', Line:10, Col:11>
+ 24. <26, '0.5', Line:10, Col:13, Index:4>
+ 25. <21, ';', Line:10, Col:16>
+ 26. <4, 'int', Line:13, Col:1>
+ 27. <23, 'name', Line:13, Col:5, Index:5>
+ 28. <10, '=', Line:13, Col:10>
+ 29. <27, 'Hello, World!', Line:13, Col:12, Index:5>
+ 30. <21, ';', Line:13, Col:27>
+ 31. <4, 'int', Line:14, Col:1>
+ 32. <23, 'path', Line:14, Col:5, Index:6>
+ 33. <10, '=', Line:14, Col:10>
+ 34. <27, 'C:\Users\test\file.txt', Line:14, Col:12, Index:6>
+ 35. <21, ';', Line:14, Col:39>
+ 36. <4, 'int', Line:15, Col:1>
+ 37. <23, 'message', Line:15, Col:5, Index:7>
+ 38. <10, '=', Line:15, Col:13>
+ 39. <27, 'Single quote string', Line:15, Col:15, Index:7>
+ 40. <21, ';', Line:15, Col:36>
+ 41. <4, 'int', Line:16, Col:1>
+ 42. <23, 'multiline', Line:16, Col:5, Index:8>
+ 43. <10, '=', Line:16, Col:15>
+ 44. <27, 'Line 1
+Line 2	Tabbed', Line:16, Col:17, Index:8>
+ 45. <21, ';', Line:16, Col:41>
+ 46. <4, 'int', Line:24, Col:1>
+ 47. <23, 'result', Line:24, Col:5, Index:9>
+ 48. <10, '=', Line:24, Col:12>
+ 49. <23, 'a', Line:24, Col:14, Index:0>
+ 50. <6, '+', Line:24, Col:16>
+ 51. <23, 'b', Line:24, Col:18, Index:1>
+ 52. <8, '*', Line:24, Col:20>
+ 53. <23, 'pi', Line:24, Col:22, Index:2>
+ 54. <21, ';', Line:24, Col:24>
+ 55. <1, 'if', Line:26, Col:1>
+ 56. <17, '(', Line:26, Col:4>
+ 57. <23, 'ratio', Line:26, Col:5, Index:4>
+ 58. <13, '<', Line:26, Col:11>
+ 59. <26, '1.0', Line:26, Col:13, Index:9>
+ 60. <18, ')', Line:26, Col:16>
+ 61. <19, '{', Line:26, Col:18>
+ 62. <23, 'result', Line:27, Col:5, Index:9>
+ 63. <10, '=', Line:27, Col:12>
+ 64. <23, 'result', Line:27, Col:14, Index:9>
+ 65. <9, '/', Line:27, Col:21>
+ 66. <26, '2.5', Line:27, Col:23, Index:10>
+ 67. <21, ';', Line:27, Col:26>
+ 68. <20, '}', Line:28, Col:1>
+ 69. <4, 'int', Line:31, Col:1>
+ 70. <23, 'greeting', Line:31, Col:5, Index:10>
+ 71. <10, '=', Line:31, Col:14>
+ 72. <27, 'Hello', Line:31, Col:16, Index:11>
+ 73. <6, '+', Line:31, Col:24>
+ 74. <23, 'name', Line:31, Col:26, Index:5>
+ 75. <21, ';', Line:31, Col:30>
+ 76. <3, 'while', Line:33, Col:1>
+ 77. <17, '(', Line:33, Col:7>
+ 78. <23, 'e', Line:33, Col:8, Index:3>
+ 79. <15, '>', Line:33, Col:10>
+ 80. <26, '2.0', Line:33, Col:12, Index:12>
+ 81. <18, ')', Line:33, Col:15>
+ 82. <19, '{', Line:33, Col:17>
+ 83. <23, 'e', Line:34, Col:5, Index:3>
+ 84. <10, '=', Line:34, Col:7>
+ 85. <23, 'e', Line:34, Col:9, Index:3>
+ 86. <7, '-', Line:34, Col:11>
+ 87. <26, '0.1', Line:34, Col:13, Index:13>
+ 88. <21, ';', Line:34, Col:16>
+ 89. <20, '}', Line:35, Col:1>
+ 90. <5, 'return', Line:37, Col:1>
+ 91. <23, 'result', Line:37, Col:8, Index:9>
+ 92. <21, ';', Line:37, Col:14>
+ 93. <28, 'EOF', Line:38, Col:1>
+
+============================================================
+符号表 (标识符)
+============================================================
+  [0] a
+  [1] b
+  [2] pi
+  [3] e
+  [4] ratio
+  [5] name
+  [6] path
+  [7] message
+  [8] multiline
+  [9] result
+  [10] greeting
+
+============================================================
+常数表
+============================================================
+  [0] 10 (int)
+  [1] 20 (int)
+  [2] 3.14159 (float)
+  [3] 2.71828 (float)
+  [4] 0.5 (float)
+  [5] Hello, World! (string)
+  [6] C:\Users\test\file.txt (string)
+  [7] Single quote string (string)
+  [8] Line 1
+Line 2	Tabbed (string)
+  [9] 1.0 (float)
+  [10] 2.5 (float)
+  [11] Hello (string)
+  [12] 2.0 (float)
+  [13] 0.1 (float)

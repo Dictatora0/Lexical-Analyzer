@@ -1,0 +1,30 @@
+// 测试 v3.0 新功能：科学计数法
+
+// 标准科学计数法
+int avogadro = 6.022e23;
+int planck = 6.626e-34;
+int lightSpeed = 2.998E+8;
+
+// 小数 + 科学计数法
+int pi_sci = 3.14159e0;
+int tiny = 1.0e-10;
+int huge = 9.99e99;
+
+// 整数 + 科学计数法
+int million = 1e6;
+int billion = 1E9;
+
+// 负指数
+int nano = 1e-9;
+int micro = 1e-6;
+int milli = 1e-3;
+
+// 正指数（显式+）
+int kilo = 1e+3;
+int mega = 1e+6;
+
+if (avogadro > planck) {
+    int result = lightSpeed * tiny;
+}
+
+return 0;

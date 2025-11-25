@@ -1,0 +1,63 @@
+// 压力测试：深度嵌套
+// 测试词法分析器对深度嵌套结构的处理能力
+
+if (level1) {
+ if (level2) {
+  if (level3) {
+   if (level4) {
+    if (level5) {
+     if (level6) {
+      if (level7) {
+       if (level8) {
+        if (level9) {
+         if (level10) {
+          // 10层嵌套
+          while (loop1) {
+           while (loop2) {
+            while (loop3) {
+             while (loop4) {
+              while (loop5) {
+               // 15层嵌套
+               {
+                {
+                 {
+                  {
+                   {
+                    // 20层嵌套
+                    int value = 100;
+                    value++;
+                    // 继续深层嵌套
+                    if (value > 0) {
+                     if (value > 1) {
+                      if (value > 2) {
+                       if (value > 3) {
+                        if (value > 4) {
+                         // 25层嵌套
+                         value--;
+                        }
+                       }
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+
+return 0;

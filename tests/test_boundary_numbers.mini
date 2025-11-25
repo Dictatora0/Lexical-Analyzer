@@ -1,0 +1,39 @@
+// 边界测试：数值边界
+// 测试各种极端数值
+
+// 整数边界
+int zero = 0;
+int one = 1;
+int small = 10;
+int medium = 12345;
+int large = 999999;
+int huge = 999999999;
+
+// 浮点数边界
+int fzero = 0.0;
+int ftiny = 0.001;
+int fsmall = 1.5;
+int fpi = 3.14159;
+int flarge = 999.999;
+int fhuge = 999999.999999;
+
+// 科学计数法边界
+int sci_min = 1e-999;      // 极小数
+int sci_small = 1e-10;     // 小数
+int sci_zero = 1.0e0;      // 零指数
+int sci_normal = 1.2e5;    // 正常值
+int sci_large = 1e10;      // 大数
+int sci_max = 1e+999;      // 极大数
+
+// 特殊科学计数法
+int planck = 6.626e-34;    // 普朗克常数
+int avogadro = 6.022e23;   // 阿伏伽德罗常数
+int light = 2.998e8;       // 光速
+int electron = 9.109e-31;  // 电子质量
+
+// 边界组合
+int result1 = zero + one;
+int result2 = ftiny * fhuge;
+int result3 = sci_min + sci_max;
+
+return 0;

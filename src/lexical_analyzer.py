@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-Mini 语言词法分析器 v2.0 - 改进版
-改进内容：
+"""Mini 语言词法分析器 v3.0 - 专业版
+
+v2.0 改进内容：
 1. 支持浮点数
 2. 支持字符串常量
 3. 支持单行注释 //
@@ -11,6 +11,12 @@ Mini 语言词法分析器 v2.0 - 改进版
 5. 使用分派表消除巨型 IF-ELSE
 6. 标准 EOF 处理
 7. 错误恢复机制
+
+v3.0 新增改进：
+1. 支持科学计数法 (1.2e-5, 3.0E+10)
+2. 生成器模式 (Lazy Evaluation)
+3. 逻辑运算符 (&&, ||) 和自增自减 (++, --)
+4. 精确的 Tab 处理（列号计算）
 """
 
 import sys
@@ -46,6 +52,11 @@ class TokenType(IntEnum):
     FLOAT = 26
     STRING = 27
     EOF = 28
+    # v3.0 新增
+    AND = 29          # &&
+    OR = 30           # ||
+    INCREMENT = 31    # ++
+    DECREMENT = 32    # --
 
 
 class Token:
@@ -91,6 +102,7 @@ class LexicalAnalyzer:
         self.line = 1
         self.column = 1
         self.current_char = self.source[0] if source_code else None
+        self.tab_width = 4  # v3.0: Tab 宽度设置
         
         self.keywords = {
             'if': TokenType.IF,
@@ -100,6 +112,18 @@ class LexicalAnalyzer:
             'return': TokenType.RETURN
         }
         
+        # v3.0: 双字符运算符映射表
+        self.double_char_tokens = {
+            '==': TokenType.EQUAL,
+            '!=': TokenType.NOT_EQUAL,
+            '<=': TokenType.LESS_EQUAL,
+            '>=': TokenType.GREATER_EQUAL,
+            '&&': TokenType.AND,
+            '||': TokenType.OR,
+            '++': TokenType.INCREMENT,
+            '--': TokenType.DECREMENT
+        }
+        
         self.simple_tokens = {
             '(': TokenType.LEFT_PAREN,
             ')': TokenType.RIGHT_PAREN,
@@ -107,8 +131,6 @@ class LexicalAnalyzer:
             '}': TokenType.RIGHT_BRACE,
             ';': TokenType.SEMICOLON,
             ',': TokenType.COMMA,
-            '+': TokenType.PLUS,
-            '-': TokenType.MINUS,
             '*': TokenType.MULTIPLY,
         }
         
@@ -131,9 +153,14 @@ class LexicalAnalyzer:
             raise Exception(f"错误过多，停止编译")
     
     def advance(self):
+        """v3.0: 改进的 advance 方法，支持精确的 Tab 列号计算"""
         if self.current_char == '\n':
             self.line += 1
             self.column = 1
+        elif self.current_char == '\t':
+            # 计算下一个制表位 (Tab Stop)
+            # 公式：当前列 + (宽度 - (当前列-1) % 宽度)
+            self.column += (self.tab_width - (self.column - 1) % self.tab_width)
         else:
             self.column += 1
         
@@ -194,11 +221,13 @@ class LexicalAnalyzer:
             return Token(TokenType.IDENTIFIER, result, start_line, start_column, index)
     
     def read_number(self) -> Token:
+        """v3.0: 支持科学计数法 (1.2e-5, 3.0E+10)"""
         start_line = self.line
         start_column = self.column
         result = ''
         is_float = False
         
+        # 读取整数部分和小数部分
         while self.current_char and (self.current_char.isdigit() or self.current_char == '.'):
             if self.current_char == '.':
                 if is_float:
@@ -209,10 +238,37 @@ class LexicalAnalyzer:
             result += self.current_char
             self.advance()
         
+        # v3.0: 处理科学计数法指数部分 (e 或 E)
+        if self.current_char and self.current_char.lower() == 'e':
+            result += self.current_char
+            self.advance()
+            
+            # 处理指数符号 (+/-)
+            if self.current_char and self.current_char in '+-':
+                result += self.current_char
+                self.advance()
+            
+            # 指数后面必须跟数字
+            if not self.current_char or not self.current_char.isdigit():
+                self.error("科学计数法格式错误: 指数后缺少数字")
+                return Token(TokenType.FLOAT, result, start_line, start_column, -1)
+            
+            # 读取指数数字部分
+            while self.current_char and self.current_char.isdigit():
+                result += self.current_char
+                self.advance()
+            
+            is_float = True  # 只要有 'e'，一定是浮点数
+        
+        # 存入常数表
         if is_float:
-            value = float(result)
-            index = self.add_to_constant_table(value, "float")
-            return Token(TokenType.FLOAT, result, start_line, start_column, index)
+            try:
+                value = float(result)
+                index = self.add_to_constant_table(value, "float")
+                return Token(TokenType.FLOAT, result, start_line, start_column, index)
+            except ValueError:
+                self.error(f"无效的浮点数格式: {result}")
+                return Token(TokenType.FLOAT, result, start_line, start_column, -1)
         else:
             value = int(result)
             index = self.add_to_constant_table(value, "int")
@@ -295,6 +351,41 @@ class LexicalAnalyzer:
             start_line = self.line
             start_column = self.column
             
+            # v3.0: 统一处理双字符运算符（最长匹配原则）
+            if self.current_char in '=!<>&|+-':
+                peek_char = self.peek()
+                if peek_char:
+                    candidate = self.current_char + peek_char
+                    if candidate in self.double_char_tokens:
+                        self.advance()
+                        self.advance()
+                        return Token(self.double_char_tokens[candidate], candidate, start_line, start_column)
+                
+                # 单字符处理
+                if self.current_char == '=':
+                    self.advance()
+                    return Token(TokenType.ASSIGN, '=', start_line, start_column)
+                elif self.current_char == '<':
+                    self.advance()
+                    return Token(TokenType.LESS, '<', start_line, start_column)
+                elif self.current_char == '>':
+                    self.advance()
+                    return Token(TokenType.GREATER, '>', start_line, start_column)
+                elif self.current_char == '+':
+                    self.advance()
+                    return Token(TokenType.PLUS, '+', start_line, start_column)
+                elif self.current_char == '-':
+                    self.advance()
+                    return Token(TokenType.MINUS, '-', start_line, start_column)
+                elif self.current_char == '!':
+                    self.error(f"非法字符 '!'，期望 '!='")
+                    self.advance()
+                    continue
+                elif self.current_char in '&|':
+                    self.error(f"非法字符 '{self.current_char}'，期望 '{self.current_char}{self.current_char}'")
+                    self.advance()
+                    continue
+            
             if self.current_char in self.simple_tokens:
                 token_type = self.simple_tokens[self.current_char]
                 val = self.current_char
@@ -305,54 +396,38 @@ class LexicalAnalyzer:
                 self.advance()
                 return Token(TokenType.DIVIDE, '/', start_line, start_column)
             
-            if self.current_char == '=':
-                self.advance()
-                if self.current_char == '=':
-                    self.advance()
-                    return Token(TokenType.EQUAL, '==', start_line, start_column)
-                return Token(TokenType.ASSIGN, '=', start_line, start_column)
-            
-            if self.current_char == '!':
-                self.advance()
-                if self.current_char == '=':
-                    self.advance()
-                    return Token(TokenType.NOT_EQUAL, '!=', start_line, start_column)
-                else:
-                    self.error(f"非法字符 '!'，期望 '!='")
-                    continue
-            
-            if self.current_char == '<':
-                self.advance()
-                if self.current_char == '=':
-                    self.advance()
-                    return Token(TokenType.LESS_EQUAL, '<=', start_line, start_column)
-                return Token(TokenType.LESS, '<', start_line, start_column)
-            
-            if self.current_char == '>':
-                self.advance()
-                if self.current_char == '=':
-                    self.advance()
-                    return Token(TokenType.GREATER_EQUAL, '>=', start_line, start_column)
-                return Token(TokenType.GREATER, '>', start_line, start_column)
-            
             self.error(f"非法字符 '{self.current_char}'")
             self.advance()
         
         return Token(TokenType.EOF, 'EOF', self.line, self.column)
     
-    def analyze(self) -> List[Token]:
+    def tokenize(self):
+        """v3.0: 生成器模式 - 按需产出 Token (Lazy Evaluation)
+        
+        优势：
+        1. 内存高效：不需要一次性将所有 Token 加载到内存
+        2. 流式处理：适合大文件分析
+        3. 架构解耦：与语法分析器的理想接口
+        
+        用法：
+            for token in analyzer.tokenize():
+                print(token)
+        """
         try:
             while True:
                 token = self.get_next_token()
                 if token:
-                    self.tokens.append(token)
+                    yield token
                     if token.type == TokenType.EOF:
                         break
                 else:
                     break
         except Exception as e:
             print(f"\n分析中断: {e}")
-        
+    
+    def analyze(self) -> List[Token]:
+        """向后兼容的方法 - 一次性返回所有 Token"""
+        self.tokens = list(self.tokenize())
         return self.tokens
     
     def print_tokens(self):
