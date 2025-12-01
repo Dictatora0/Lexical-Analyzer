@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Mini 语言词法分析器 v3.0 - 专业版
+"""Mini 语言词法分析器。
 
-v2.0 改进内容：
-1. 支持浮点数
+功能概述：
+1. 支持整数、浮点数和科学计数法 (1.2e-5, 3.0E+10)
 2. 支持字符串常量
-3. 支持单行注释 //
-4. 符号表/常数表哈希优化
-5. 使用分派表消除巨型 IF-ELSE
-6. 标准 EOF 处理
-7. 错误恢复机制
-
-v3.0 新增改进：
-1. 支持科学计数法 (1.2e-5, 3.0E+10)
-2. 生成器模式 (Lazy Evaluation)
-3. 逻辑运算符 (&&, ||) 和自增自减 (++, --)
-4. 精确的 Tab 处理（列号计算）
+3. 支持单行注释 // 和块注释 /* ... */
+4. 支持逻辑运算符 (&&, ||) 和自增自减 (++, --)
+5. 精确的 Tab 处理（列号计算）
+6. 维护符号表和常数表，并可输出 token、符号表和常数表到文件
+7. 提供生成器模式按需产出 token
 """
 
 import sys
@@ -25,12 +19,7 @@ from enum import IntEnum
 
 
 class TokenType(IntEnum):
-    """Mini 语言中所有 Token 类型的枚举。
-
-    词法分析阶段只关心“这是一类什么东西”，
-    比如：关键字、标识符、整数、浮点数、运算符、括号等，
-    统一用枚举值来表达，便于后续语法分析和错误信息输出。
-    """
+    """Mini 语言中所有 token 类型的枚举。"""
     IF = 1
     ELSE = 2
     WHILE = 3
@@ -59,7 +48,7 @@ class TokenType(IntEnum):
     STRING = 27
     EOF = 28
 
-    # v3.0 新增
+    # 额外的逻辑运算符和自增自减运算符
     AND = 29          # &&
     OR = 30           # ||
     INCREMENT = 31    # ++
@@ -67,21 +56,7 @@ class TokenType(IntEnum):
 
 
 class Token:
-    """词法单元（Token）的数据结构。
-
-    一个 Token 对应源代码中的一个最小“记号”，例如：
-    - 关键字：if, while;
-    - 标识符：变量名、函数名等；
-    - 常量：数字字面量、字符串字面量；
-    - 分隔符：括号、逗号、分号等。
-
-    属性说明：
-    - type:       TokenType 枚举值，表示记号的类别；
-    - value:      源代码中的原始文本（例如 "if"、"abc"、"123"）；
-    - line:       记号在源文件中的行号（从 1 开始）；
-    - column:     记号在源文件中的列号（从 1 开始），尽量与编辑器显示一致；
-    - attr_index: 若需要在符号表/常数表中查找附加信息，则记录对应索引，否则为 -1。
-    """
+    """词法单元，表示源代码中的一个记号。"""
 
     def __init__(self, token_type: int, value: str, line: int, column: int, attr_index: int = -1):
         self.type = token_type
@@ -98,13 +73,7 @@ class Token:
 
 
 class SymbolEntry:
-    """符号表中的一项。
-
-    对于标识符（变量名、函数名等），词法分析阶段只负责“发现和登记”，
-    不做语义检查。这里记录：
-    - name: 标识符的名字；
-    - index: 在符号表中的序号，供 Token.attr_index 使用。
-    """
+    """符号表条目，记录标识符及其索引。"""
 
     def __init__(self, name: str, index: int):
         self.name = name
@@ -115,15 +84,7 @@ class SymbolEntry:
 
 
 class ConstantEntry:
-    """常数表中的一项。
-
-    对于整数、浮点数、字符串等字面量，为了避免重复存储，
-    可以把它们集中放在常数表里，只在 Token 里保存一个索引。
-
-    - value: 常量的实际值（已经转换成 int/float/str）；
-    - index: 在常数表中的序号；
-    - const_type: 常量类型字符串，例如 "int"、"float"、"string"。
-    """
+    """常数表条目，记录字面量值、索引及类型。"""
 
     def __init__(self, value: Union[int, float, str], index: int, const_type: str = "int"):
         self.value = value
@@ -135,13 +96,7 @@ class ConstantEntry:
 
 
 class LexicalAnalyzer:
-    """Mini 语言的词法分析器。
-    
-    职责：
-    1. 顺序读取源代码字符流，切分出 Token 序列；
-    2. 维护符号表（标识符）和常数表（字面量）；
-    3. 在发现错误时尽量继续扫描，方便一次性看到更多问题。
-    """
+    """Mini 语言词法分析器，负责扫描源代码并生成 token。"""
     MAX_ERRORS = 10
     
     def __init__(self, source_code: str):
@@ -154,8 +109,8 @@ class LexicalAnalyzer:
         self.line = 1
         self.column = 1
         self.current_char = self.source[0] if source_code else None
-        # Tab 宽度固定为 4，用于计算列号（和大部分编辑器的默认设置一致）
-        self.tab_width = 4  # v3.0: Tab 宽度设置
+        # Tab 宽度固定为 4，用于计算列号，采用制表位 (tab stop) 计算方式
+        self.tab_width = 4
         
         # 关键字表：扫描到对应单词时直接映射为关键字 Token
         self.keywords = {
@@ -166,7 +121,7 @@ class LexicalAnalyzer:
             'return': TokenType.RETURN
         }
         
-        # v3.0: 双字符运算符映射表
+        # 双字符运算符映射表，采用最长匹配优先
         self.double_char_tokens = {
             '==': TokenType.EQUAL,
             '!=': TokenType.NOT_EQUAL,
@@ -211,7 +166,7 @@ class LexicalAnalyzer:
             print(f"\n警告: 错误数量已达到 {self.MAX_ERRORS} 个，但继续分析...")
     
     def advance(self):
-        """v3.0: 改进的 advance 方法，支持精确的 Tab 列号计算"""
+        """前进一个字符，并维护精确的行号与列号（包含 Tab 对齐）。"""
         if self.current_char == '\n':
             self.line += 1
             self.column = 1
@@ -291,7 +246,7 @@ class LexicalAnalyzer:
             return Token(TokenType.IDENTIFIER, result, start_line, start_column, index)
     
     def read_number(self) -> Token:
-        """v3.0: 支持科学计数法 (1.2e-5, 3.0E+10)"""
+        """读取整数、小数和科学计数法数字字面量 (如 1.2e-5, 3.0E+10)。"""
         # 整数、小数和科学计数法统一在这里处理
         # start_line/start_column 用来在出错时给出准确位置
         start_line = self.line
@@ -310,7 +265,7 @@ class LexicalAnalyzer:
             result += self.current_char
             self.advance()
         
-        # v3.0: 处理科学计数法指数部分 (e 或 E)，例如 1.23e-4 或 3E+8
+        # 处理科学计数法指数部分 (e 或 E)，例如 1.23e-4 或 3E+8
         if self.current_char and self.current_char.lower() == 'e':
             result += self.current_char
             self.advance()
@@ -332,7 +287,7 @@ class LexicalAnalyzer:
             
             is_float = True  # 只要有 'e'，一定是浮点数
         
-        # 存入常数表：浮点和整数分别记录类型，后续可以根据类型做不同处理
+        # 存入常数表：浮点和整数分别记录类型，后续可按类型做不同处理
         if is_float:
             try:
                 value = float(result)
@@ -435,7 +390,7 @@ class LexicalAnalyzer:
             start_line = self.line
             start_column = self.column
             
-            # v3.0: 统一处理双字符运算符（最长匹配原则）
+            # 统一处理双字符运算符（最长匹配原则）
             if self.current_char in '=!<>&|+-':
                 peek_char = self.peek()
                 if peek_char:
@@ -486,17 +441,7 @@ class LexicalAnalyzer:
         return Token(TokenType.EOF, 'EOF', self.line, self.column)
     
     def tokenize(self):
-        """v3.0: 生成器模式 - 按需产出 Token (Lazy Evaluation)
-        
-        优势：
-        1. 内存高效：不需要一次性将所有 Token 加载到内存
-        2. 流式处理：适合大文件分析
-        3. 架构解耦：与语法分析器的理想接口
-        
-        用法：
-            for token in analyzer.tokenize():
-                print(token)
-        """
+        """按需产出 token 的生成器。"""
         try:
             while True:
                 token = self.get_next_token()
@@ -515,10 +460,7 @@ class LexicalAnalyzer:
         return self.tokens
     
     def print_tokens(self):
-        """在终端打印当前已扫描到的所有 Token。
-
-        主要用于：调试、教学演示或人工检查扫描结果是否符合预期。
-        """
+        """在终端打印当前已扫描到的所有 token。"""
         print("\n" + "="*60)
         print("Token 序列:")
         print("="*60)
@@ -526,10 +468,7 @@ class LexicalAnalyzer:
             print(f"{i:3d}. {token}")
     
     def print_symbol_table(self):
-        """在终端打印符号表内容。
-
-        每个条目形如 "[index] name"，index 从 0 开始递增。
-        """
+        """在终端打印符号表内容。"""
         print("\n" + "="*60)
         print("符号表 (标识符):")
         print("="*60)
@@ -540,10 +479,7 @@ class LexicalAnalyzer:
             print("  (空)")
     
     def print_constant_table(self):
-        """在终端打印常数表内容。
-
-        包括常量的值以及类型（int/float/string 等）。
-        """
+        """在终端打印常数表内容。"""
         print("\n" + "="*60)
         print("常数表:")
         print("="*60)
@@ -563,11 +499,7 @@ class LexicalAnalyzer:
                 print(f"  {error}")
     
     def save_tokens_to_file(self, filename: str):
-        """把 Token 序列、符号表、常数表和错误信息写入到文本文件。
-
-        方便离线查看结果或在报告中引用。
-        文件格式保持和终端输出基本一致。
-        """
+        """把 token、符号表、常数表和错误信息写入文本文件。"""
         with open(filename, 'w', encoding='utf-8') as f:
             f.write("Token序列\n")
             f.write("="*60 + "\n")
@@ -601,18 +533,7 @@ class LexicalAnalyzer:
 
 
 def main():
-    """命令行入口函数。
-
-    用法示例：
-        python lexical_analyzer.py input.mini output.txt
-
-    步骤：
-    1. 从命令行参数读取源文件路径和输出文件路径；
-    2. 打开源文件，读入全部内容；
-    3. 创建 LexicalAnalyzer 实例并执行词法分析；
-    4. 在终端打印 Token 序列、符号表、常数表和错误列表；
-    5. 把同样的信息保存到指定的输出文件中。
-    """
+    """命令行入口函数。"""
     if len(sys.argv) < 2:
         print("用法: python lexical_analyzer.py <源文件路径> [输出文件路径]")
         print("示例: python lexical_analyzer.py test.mini output.txt")

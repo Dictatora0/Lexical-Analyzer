@@ -34,20 +34,20 @@ function run_basic_tests {
     # run_test "tests/test_basic.mini" "output_basic.txt" "基础语法测试"
 }
 
-# v2.0 功能测试
+# 扩展特性测试（浮点数/字符串/注释）
 function run_v2_tests {
-    echo "=== v2.0 功能测试 ==="
-    run_test "tests/test_features.mini" "output_v2_features.txt" "v2.0 综合特性"
+    echo "=== 扩展特性测试 ==="
+    run_test "tests/test_features.mini" "output_v2_features.txt" "综合特性（浮点数/字符串/注释）"
     run_test "tests/test_float.mini" "output_v2_float.txt" "浮点数测试"
     run_test "tests/test_string.mini" "output_v2_string.txt" "字符串测试"
 }
 
-# v3.0 功能测试
+# 高级特性测试（科学计数法/逻辑运算符等）
 function run_v3_tests {
-    echo "=== v3.0 功能测试 ==="
+    echo "=== 高级特性测试 ==="
     run_test "tests/test_v3_scientific.mini" "output_v3_scientific.txt" "科学计数法"
     run_test "tests/test_v3_operators.mini" "output_v3_operators.txt" "逻辑运算符"
-    run_test "tests/test_v3_comprehensive.mini" "output_v3_comprehensive.txt" "v3.0 综合测试"
+    run_test "tests/test_v3_comprehensive.mini" "output_v3_comprehensive.txt" "高级特性综合测试"
 }
 
 # 错误处理测试
