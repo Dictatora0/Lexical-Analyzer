@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 综合测试运行脚本 - 支持参数选择
+# 综合测试运行脚本 - 一次性执行全部测试
 
 PYTHON="python3"
 ANALYZER="src/lexical_analyzer.py"
@@ -8,20 +8,6 @@ OUTPUT_DIR="outputs"
 
 # 确保输出目录存在
 mkdir -p $OUTPUT_DIR
-
-# 打印帮助信息
-function print_help {
-    echo "用法: ./run_all_tests.sh [选项]"
-    echo "选项:"
-    echo "  --all       运行所有测试（默认）"
-    echo "  --basic     只运行基础功能测试"
-    echo "  --v2        只运行 v2.0 新功能测试"
-    echo "  --v3        只运行 v3.0 新功能测试"
-    echo "  --error     只运行错误处理测试"
-    echo "  --boundary  只运行边界条件测试"
-    echo "  --stress    只运行压力测试"
-    echo "  --help      显示此帮助信息"
-}
 
 # 运行单个测试文件
 function run_test {
@@ -34,9 +20,9 @@ function run_test {
     $PYTHON $ANALYZER "$test_file" "$OUTPUT_DIR/$output_file"
     
     if [ $? -eq 0 ]; then
-        echo "  ✅ 测试通过"
+        echo "   测试通过"
     else
-        echo "  ❌ 测试失败"
+        echo "   测试失败"
     fi
     echo ""
 }
@@ -87,52 +73,15 @@ function run_stress_tests {
     run_test "tests/test_stress_nesting.mini" "output_stress_nesting.txt" "深度嵌套测试"
 }
 
-# 参数解析
-if [ $# -eq 0 ]; then
-    ARG="--all"
-else
-    ARG=$1
-fi
-
 echo "Mini 语言词法分析器 - 自动化测试套件"
 echo "======================================"
 echo ""
 
-case $ARG in
-    --all)
-        run_v2_tests
-        run_v3_tests
-        run_error_tests
-        run_boundary_tests
-        run_stress_tests
-        ;;
-    --basic)
-        run_basic_tests
-        ;;
-    --v2)
-        run_v2_tests
-        ;;
-    --v3)
-        run_v3_tests
-        ;;
-    --error)
-        run_error_tests
-        ;;
-    --boundary)
-        run_boundary_tests
-        ;;
-    --stress)
-        run_stress_tests
-        ;;
-    --help)
-        print_help
-        ;;
-    *)
-        echo "未知选项: $ARG"
-        print_help
-        exit 1
-        ;;
-esac
+run_v2_tests
+run_v3_tests
+run_error_tests
+run_boundary_tests
+run_stress_tests
 
 echo "======================================"
 echo "测试完成！结果保存在 $OUTPUT_DIR 目录"
